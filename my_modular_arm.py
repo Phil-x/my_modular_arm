@@ -13,7 +13,7 @@ from viam.logging import getLogger
 
 from viam.utils import ValueTypes
 from viam.module.module import Module
-from viam.resource.registry import Registry, ResourceCreatorRegistration
+#from viam.resource.registry import Registry, ResourceCreatorRegistration
 
 import serial
 
@@ -22,7 +22,7 @@ ser = serial.Serial()
 
 class MyModularArm(Arm):
     # Subclass the Viam Arm component and implement the required functions
-    MODEL: ClassVar[Model] = Model(ModelFamily("acme", "demo"), "myarm")
+    MODEL: ClassVar[Model] = Model(ModelFamily("acme", "demo"), "myarm")  # refer to Config tab in VIAM 
     armconfig : ComponentConfig = None
 
     # Starting joint positions / Axis names
@@ -134,16 +134,10 @@ class MyModularArm(Arm):
         
         return result
 
+
 async def main():
-    """This function creates and starts a new module, after adding all desired
-    resources. Resources must be pre-registered. For an example, see the
-    `__init__.py` file.
-    """
-    module = Module.from_args()
-    module.add_model_from_registry(Arm.SUBTYPE, MyModularArm.MODEL)
-    await module.start()
+    arm=MyModularArm.new
+    print(arm.__name__)
 
-Registry.register_resource_creator(Arm.SUBTYPE, MyModularArm.MODEL, ResourceCreatorRegistration(MyModularArm.new))
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     asyncio.run(main())
