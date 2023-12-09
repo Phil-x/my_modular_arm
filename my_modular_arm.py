@@ -30,6 +30,7 @@ class MyModularArm(Arm):
     axis_list = ['X', 'Y', 'Z', 'A', 'B', 'C'] 
 
     def __init__(self, name: str):
+        self.is_stopped = True
         LOGGER.info(f'Calling __init__')
         super().__init__(name)
 
